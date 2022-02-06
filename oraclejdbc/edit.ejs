@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+       <title>수정</title>
+    </head>
+    <body>
+        
+        <ul>
+            <form method="post" action="/writeEditOk">
+                <li>번호 : <%=list.rows[0][0]%> </li>
+                
+                <li> 제목 : <input type="text" name="subject" value="<%=list.rows[0][1]%>"/></li>
+                
+                <li>작성자 : <%=list.rows[0][3]%>, ip : <%=list.rows[0][4]%></li>    
+                <li>조회수 : <%=list.rows[0][5]%>, 등록일 : <%=list.rows[0][6]%></li>   
+                <li>내용 <br/> <textarea name="content"><%=list.rows[0][2]%></textarea></li>    
+                <input type="submit" value="수정하기"/>
+                <input type="hidden" name="no" value="<%=list.rows[0][0]%>"/>
+            </form>                  
+        </ul>
+        <a href="/list">목록</a>
+        
+    </body>
+</html>

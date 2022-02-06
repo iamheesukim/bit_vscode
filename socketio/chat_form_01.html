@@ -1,0 +1,52 @@
+<!--1014-->
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>채팅</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        var socket;
+        $(function() {
+            //1. 서버에 접속한다.
+            socket = io.connect(); //서버에 접속시도
+
+            //2. 클라이언트가 서버로 문자 보내기
+            socket.emit('hello','안녕! 나 클라이언트!');
+
+            //3. 서버가 보낸 문자 받는 이벤트
+            socket.on('echo',function(msg) {
+                $("#chatMessage").append(msg+"<br/>");
+            });
+
+            //메시지 작성하여 보내기
+            $("#send").click(function() {
+                messageSend();
+            });
+            $("#msg").keyup(function(event) {
+                if(event.keyCode==13) {//아스키코드에서 엔터는 13
+                    messageSend();
+                }
+            })
+
+            function messageSend(msg) {
+                socket.emit('hello',$("#msg").val());
+                $("#msg").val("");
+                $("#msg").focus();
+            }
+
+        });
+    </script>
+</head>
+
+<body>
+    <h1>Echo Chatting</h1>
+    <div>
+        Message : <input type="text" id="msg"/>
+                  <input type="button" id="send" value="send"/>
+    </div>
+    <!--서버에서 받은 메시지 표시-->
+    <div id="chatMessage" style="background-color: #ddd"></div>
+</body>
+</html>

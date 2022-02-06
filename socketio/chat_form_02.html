@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="/socket.io/socket.io.js"></script>
+<script>
+    var socket;
+    $(function(){
+        $("#createRoom").click(function(){
+        //방생성
+        if($("#roomName").val()!=''){
+            socket = io.connect(); //서버와 연결
+
+            //서버에 방 생성 : 방 이름으로 이벤트를 발생
+            socket.emit('join',$('#roomName').val());
+
+            //방만들기 숨기고
+                    //$("#roomDiv").css('display','none');
+                    $("#roomDiv").html("<h1>방이름 : "+$("#roomName").val()+"</h1>");
+
+
+            //채팅창 보여주기
+            $('#showMessage').css('display', 'block');
+
+            //서버에서 보내온 문자 처리할 이벤트
+            socket.on('response',function(msg){
+                $("#msgView").append(msg+"<br/>");
+            });
+        }else{
+            alert('방 이름을 입력 후 생성하세요...');
+       
+        }
+    });
+         //클라이언트가 서버로 문자 보내는 함수
+        function sendMessage(){
+            if($("#msg").val()!=''){
+               socket.emit('message', $('#msg').val()); //서버로 보내기
+                $('#msg').val('');
+                $('#msg').focus();
+            }else{
+                alert("메시지를 입력 후 보내세요.");
+            }
+        }
+
+        $("#msgSend").click(function(){
+            sendMessage();
+        });
+    });
+   
+</script>
+</head>
+<body>
+<div id="roomDiv">
+<h1>방만들기</h1>
+방이름 : <input type="text" name="roomName" id="roomName"/>
+        <input type="button" value="방만들기" id="createRoom"/>
+</div>
+
+<hr/>
+<div id="showMessage" style="display:none">
+    <h1>채팅</h1>   
+    Message : <input type="" name="msg" id="msg"/>
+    <input type="button" value="보내기" id="msgSend"/>
+</div>
+<hr/>
+<h1>채팅 내용보기</h1>
+<div id="msgView" style="background-color:lightblue"></div>
+</body>
+</html>

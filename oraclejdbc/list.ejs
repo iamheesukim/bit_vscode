@@ -1,0 +1,22 @@
+<html>
+    <head>
+        <title>게시판</title>
+    </head>
+    <body>
+        <a href="/writeFrm">글쓰기</a>
+        총 레코드 수 : <%=totalRecord%>
+      <ul>
+        <li>번호, 제목, 작성자, 조회수, 등록일</li>
+        <% for(var r=0; r<records.rows.length; r++){%>
+        <li>
+            <%=records.rows[r][0]%>,
+        
+            <a href="/view?no=<%=records.rows[r][0]%>"><%=records.rows[r][1]%></a>,
+            <%=records.rows[r][2]%>,
+            <%=records.rows[r][3]%>,
+            <%=records.rows[r][4]%>
+        </li>
+        <%}%>
+      </ul>
+    </body>
+</html>

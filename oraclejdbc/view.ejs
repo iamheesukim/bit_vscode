@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>글내용</title>
+    </head>
+    <body>
+        <h1>글내용보기</h1>
+            <ul>
+                <li>번호 : <%=results.rows[0][0]%></li>
+                <li>작성자 : <%=results.rows[0][3]%></li>
+                <li>조회수 : <%=results.rows[0][4]%></li>
+                <li>등록일 : <%=results.rows[0][5]%></li>
+                <li>제목 : <%=results.rows[0][1]%></li>
+                <li>글내용 : <%=results.rows[0][2]%></li>
+            </ul>
+      
+            <a href="/writeEdit?no=<%=results.rows[0][0]%>">수정</a>
+            <a href="/writeDelete?no=<%=results.rows[0][0]%>">삭제</a>
+            <a href="/list">목록</a>
+    </body>
+</html>
